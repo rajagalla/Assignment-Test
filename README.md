@@ -3,12 +3,12 @@ Assignment Test
 
 ## Here we have four test questions
 
-Q-1) To forecast the sales data from the given data set
+#Q-1) To forecast the sales data from the given data set
 
 Have build the different models with applying different parameters of lag difference and seasonal lag differences and identified the best model which has least RMSE 
 
 
-Q-2) To optmize with given business rules
+#Q-2) To optmize with given business rules
 with given below data The goal of this problem is to put as much #stuff into a container as it will hold while optimizing for #constraints such as item weight, size and value
 
 
@@ -25,14 +25,14 @@ Using GA algorithm, identified the best possible values x1 and x2 and x3 with gi
 
 
 
-Q-3) To write a program to compare the palanogram picture vs actual picture to identify the differnces
+#Q-3) To write a program to compare the palanogram picture vs actual picture to identify the differnces
 
 Here this questions like image classification and this is new topic and i would need more time to creat a program.
 We can use different algorithm or custom program to compare the picture of acutal vs palnaogram picture.
 Having said that- given more time i could develop the program for this question
 
 
-Q-4) To find insigghts on hotel booking data and give recommendatiaons and forecast the number of total bookings for next days
+#Q-4) To find insigghts on hotel booking data and give recommendatiaons and forecast the number of total bookings for next days
 
 Here, we have hotel bookings data and with 36 variables.
 we could summaries of data and plot some data points depeneding on the potential variables and interesetd variable
