@@ -1,3 +1,5 @@
+
+#importing required libraries
 library(stringr)
 library(forecast)
 #library(tidytext)
@@ -58,7 +60,7 @@ sales_ts %>%
 
 
 sales_ts %>%
-  diff(lag = 12) %>%
+  diff(lag = 4) %>%
   diff() %>%
   ggtsdisplay()
 
@@ -67,33 +69,35 @@ sales_ts %>%
 ##here we have found there is significant spike in acf graphs at 12 lag it means it has yearly seasonal trend and then there is difference of lag in moving avergae trend
 
 
-sales_train_ts %>%
-  arima(order = c(0,1,1),
-        seasonal = c(0,1,1)) %>%
-  residuals() %>%
-  ggtsdisplay()
+#sales_train_ts %>%
+#  arima(order = c(1,0,0),
+#        seasonal = c(1,1,0)) %>%
+#  residuals() %>%
+#  ggtsdisplay()
 
 
 
 fit_mdl_1 = sales_train_ts %>%
-  arima(order = c(1,1,1),
-        seasonal = c(1,1,1))
+  Arima(order = c(1,0,0),
+        seasonal = c(1,1,0))
 
 summary(fit_mdl_1)
-
-
-fit_mdl_2 = sales_train_ts %>%
-  arima(order = c(0,1,2),
-        seasonal = c(0,1,2))
-
-summary(fit_mdl_2)
 
 checkresiduals(fit_mdl_1)
 
 
-fit_mdl_3 = sales_train_ts %>%
-  arima(order = c(1,1,0),
+fit_mdl_2 = sales_train_ts %>%
+  Arima(order = c(1,1,0),
         seasonal = c(1,1,0))
+
+summary(fit_mdl_2)
+
+checkresiduals(fit_mdl_2)
+
+
+fit_mdl_3 = sales_train_ts %>%
+  Arima(order = c(1,1,0),
+        seasonal = c(1,2,0))
 
 
 summary(fit_mdl_3)
@@ -104,9 +108,10 @@ checkresiduals(fit_mdl_3)
 #we can build different models. and auto arima is the one modelling which will creates models and present the best model among all models
 
 aa_mdl = auto.arima(sales_train_ts)
+
 summary(aa_mdl)
 
-
+checkresiduals(aa_mdl)
 
 
 ##to check residual summary and and acf information of fitted models
@@ -122,24 +127,30 @@ checkresiduals(aa_mdl)
 fct_dt_mdl_1 = forecast(fit_mdl_1,h = 17)
 fct_dt_mdl_2 = forecast(fit_mdl_2,h = 17)
 fct_dt_mdl_3 = forecast(fit_mdl_3,h = 17)
-
+fct_dt_mdl_4 = forecast(aa_mdl,h = 17)
 
 # as we have acutal test data we are comparing the accuracy with test data and forecast data 
 
 mdl_1_acc = accuracy(fct_dt_mdl_1, x = sales_test_ts)
 mdl_2_acc = accuracy(fct_dt_mdl_2, x = sales_test_ts)
 mdl_3_acc = accuracy(fct_dt_mdl_3, x = sales_test_ts)
+mdl_4_acc = accuracy(fct_dt_mdl_4, x = sales_test_ts)
 
 
 
-summary(md_1)
+mdl_1_acc
+mdl_2_acc
+mdl_3_acc
+mdl_4_acc
 
-checkresiduals(md_1)
+
+##FROM THE accuracy results we can find that model 4 has the least RMSE OR MAE - so we can use model 4 to forecast the data
 
 
-#to forecast the next 17 months of sales after the training data
+#to forecast for next year data we can use model 4 like below
 
-fct_ts = forecast(md_1,h=17)
+fct_ts = forecast(aa_mdl,h = 24)
+
 
 fct_ts %>%
   autoplot()
@@ -149,7 +160,7 @@ fct_ts %>%
 accuracy(fct_ts, x = sales_test_ts)
 
 
-##plotting the curve of acutal data with forecast data
+##plotting the curve of actual data with forecast data
 
 fct_ts %>%
   autoplot() +
@@ -160,3 +171,4 @@ fct_ts %>%
     ),
     col = "red"
   )
+
